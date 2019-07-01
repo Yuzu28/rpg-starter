@@ -6,6 +6,9 @@ In this simple RPG game, the hero fights the goblin. He has the options to:
 3. flee
 
 """
+class Charater: 
+    def __init__(self, Hero, Goblin):
+        
 class Hero:
     def __init__(self, power, health): 
         self.power = power
@@ -13,28 +16,30 @@ class Hero:
 
     def attack(self, goblin):
         return hero.attack(goblin)
+    
+    def print_status(self):
+        print("You have %d health and %d power." % (self.health, self.power))
         
 class Goblin: 
     def __init__(self, power, health): 
         self.power = power
         self.health = health 
-    # def hero(self, health, power):
-    #     self.health = health
-    #     self.power = power
+    
+    def attack(self, goblin):
+        return hero.attack(goblin)
+    
+    def print_status(self):
+        print("The goblin has %d health and %d power." % (self.health, self.power))
 
-    # def goblin(self, health, power):
-    #     self.health = health
-    #     self.power = power
-
-    # def attack()
+    
 
 def main():
     hero_health = 10
     hero_power = 5
     goblin_health = 6
     goblin_power = 2
-
-    while goblin_health > 0 and hero_health > 0:
+    
+    while goblin.alive() and hero.alive():
         print("You have %d health and %d power." % (hero_health, hero_power))
         print("The goblin has %d health and %d power." % (goblin_health, goblin_power))
         print()
