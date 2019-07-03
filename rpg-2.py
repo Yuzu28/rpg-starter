@@ -1,12 +1,11 @@
 import random
 
-
 class Character():
-    def __init__(self):
-        self.name = '<undefined>'
-        self.health = 10
-        self.power = 5
-        self.coins = 20
+    def __init__(self, name, health, power, coins):
+        self.name = name
+        self.health = health
+        self.power = power
+        self.coins = coins
 
     def attack(self, enemy):
         if not self.alive():
@@ -28,6 +27,9 @@ class Character():
     def alive(self):
         return self.health > 0
 
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
+#           Hero
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
 
 class Hero(Character):
     def __init__(self):
@@ -45,10 +47,10 @@ class Hero(Character):
         double_power = random.random() > 0.8
         if double_power == True:
             enemy.receive_damage(self.power * 2)
+            print("Critical Hit")
         else:
             enemy.receive_damage(self.power)
       
-
     def restore(self):
         self.health = 10
         print ("Hero's heath is restored to %d!" % self.health)
@@ -57,8 +59,10 @@ class Hero(Character):
         self.coins -= item.cost
         item.apply(hero)
 
-    
-       
+
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
+#             Enemy 
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
 class Goblin(Character):
     def __init__(self):
         self.name = 'Goblin'
@@ -112,10 +116,6 @@ class Zombie(Character):
     def alive(self):
         return self.health > -10
 
-
-
-
-
 class RandomBadGuy(Character):
     def __init__(self):
         self.name = 'RandomBadGuy'
@@ -150,6 +150,9 @@ class Elves(Character):
         else:
             enemy.receive_damage(self.power)
 
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
+#             Battle Code 
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
 
 class Battle(object):
     def fight(self, hero, enemy):
@@ -184,7 +187,9 @@ class Battle(object):
             print("YOU LOSE!")
             return False
 
-
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
+#         Items in Store
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
 
 class Evade(object):
     cost = 5
@@ -222,9 +227,9 @@ class Kunai(object):
         print ("The %s's power increased to %d." % (character.name, character.power))
 
 
-
-
-
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
+#            Store
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
 class Store(object):
     items = [Tonic, Kunai, HealthPack, Armor, Evade]
     def Do_shopping(self, hero):
@@ -238,25 +243,36 @@ class Store(object):
                 item = Store.items[i]
                 print("%d. %s (%d)" % (i + 1, item.name, item.cost))
             print("10. leave")
-            user_input = int(input("> "))
+            user_input = int(input(" "))
             if user_input == 10:
                 break
+            elif (user_input > 10): 
+                print(" That option is currently unavailable ")
+                continue
             else:
                 ItemToBuy = Store.items[user_input - 1]
                 item = ItemToBuy()
                 hero.buy(item)
 
 
+
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
+#            TO PLAY
+# ✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸✸
+
+
 hero = Hero() 
 enemies = [ Elves(), Zombie(), Goblin(), RandomBadGuy(), Medic(), Shadow() ]
-Battle_Start = Battle()
 Shopping_Store = Store()
 
 for enemy in enemies:
-    hero_won = Battle_Start.fight(hero, enemy)
+    hero_won = Battle().fight(hero, enemy)
     if not hero_won:
         print("YOU LOSE!")
-        exit(0)
+        # exit(0)
     Shopping_Store.Do_shopping(hero)
 
 print("YOU WIN!")
+
+
+
